@@ -1,0 +1,225 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <style>
+        #faq_search_box input {padding:2px;}
+#faq_btn_next {display:none; padding: 2px; font-weight:bold; cursor: pointer}
+.faq_highlight {font-weight:bold; font-style:italic; background: yellow; color:#000}
+h3 .faq_highlight {font-weight:bold; font-style:italic;}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="faq_search_box">
+        Search FAQ: <input type="text" id="faq_search"/>
+        <button id="faq_btn_next" data="0">Next Result</button>
+    </div>
+    
+    
+    <div id="faq_accordion">
+        <h3>Category 1</h3>
+        <div>
+            <div class="faq_subaccordion" id="subaccordion_0">
+            <h3>Cat 1 - Title 1</h3>
+            <div>Testing Text 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+            <h3>Cat 1 - Title 2</h3>
+            <div>Testing Text 2 but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain c</div>
+            <h3>Cat 1 - Title 3</h3>
+            <div>Testing Text 3 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequunt</div>
+            </div>
+        </div>
+        <h3>Category 2</h3>
+        <div>
+            <div class="faq_subaccordion" id="subaccordion_1">
+            <h3>Cat 2 - Title 1</h3>
+            <div>Testing Text 1 On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot f</div>
+            <h3>Cat 2 - Title 2</h3>
+            <div>Testing Text 2 rem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad </div>
+            <h3>Cat 2 - Title 3</h3>
+            <div>Testing Text 3 But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself,</div>
+            </div>
+        </div>
+        <h3>Category 3</h3>
+        <div>
+            <div class="faq_subaccordion" id="subaccordion_2">
+            <h3>Cat 3 - Title 1</h3>
+            <div>Testing Text 1 but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain c</div>
+            <h3>Cat 3 - Title 2</h3>
+            <div>Testing Text 2 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure</div>
+            <h3>Cat 3 - Title 3</h3>
+            <div>Testing Text 3 but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain c</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+    
+    $("#faq_accordion").accordion({ 
+        heightStyle: "content",
+        collapsible: true,
+         active:false, 
+        create: function( event, ui ) {$('#faq_loading').hide();
+        $('#faq_accordion').show();
+    } });
+    $(".faq_subaccordion").accordion({ heightStyle: "content",collapsible: true, active:false });
+    
+    $('input[type=text]').bind('change', function(e) {
+        faqSearch();
+    });
+  /*      $('#faq_search').on('input', function () {
+        faqSearch();
+           });
+            */
+    $("#faq_btn_next").click(function(){
+        var new_skip_index = parseInt($("#faq_btn_next").attr('data')) + 1;
+        $("#faq_btn_next").attr('data',new_skip_index);
+        faqSearch();
+    });
+    
+});
+
+function faqSearch(){
+    $('.faq_highlight').contents().unwrap();
+    
+    var faq_term = $("#faq_search").val().toLowerCase();
+    var accord_num = 0;
+    var match_found = false;
+    var top_accord_id = 0;
+    var last_top_accord_id = 0;
+    var title = '';
+    var content = '';
+    var skip_count = 0;
+    var skip_index = parseInt($("#faq_btn_next").attr('data'));
+    
+    if (faq_term.length >= 3) {
+        
+        $('.faq_subaccordion h3').each(function() {
+            // strip the icon tag
+            title = $(this).html().replace(/<[^>]+>/gim, '').toLowerCase();
+
+            if (title.indexOf(faq_term) != -1){
+                
+                top_accord_id = parseInt($(this).parent().attr('id').split("_")[1]);
+                if (last_top_accord_id != top_accord_id) {
+                    last_top_accord_id = top_accord_id;
+                    accord_num = 0;
+                }
+                
+                if (skip_index != skip_count) {
+                    skip_count++;
+                } else {
+                    
+                    var regex = new RegExp('('+faq_term+')', 'ig');
+                    $(this).html($(this).html().replace(regex, '<span class="faq_highlight">$1</span>'));
+                    
+                    $("#faq_accordion").accordion("option", "active", top_accord_id);
+                    $(this).parent().accordion("option", "active", accord_num);
+                    match_found = true;
+                    return false;
+                }
+            } else {
+                top_accord_id = parseInt($(this).parent().attr('id').split("_")[1]);
+                if (last_top_accord_id != top_accord_id) {
+                    last_top_accord_id = top_accord_id;
+                    accord_num = 0;
+                }
+                
+                content = $(this).parent().find('>div').html().replace(/<[^>]+>/gim, '').toLowerCase();
+                
+                if (content.indexOf(faq_term) != -1){
+                    if (skip_index != skip_count) {
+                        skip_count++;
+                    } else {
+                        var regex = new RegExp('('+faq_term+')', 'ig');
+                        $(this).parent().find('>div').html(content.replace(regex, '<span class="faq_highlight">$1</span>'));
+                        
+                        $("#faq_accordion").accordion("option", "active", top_accord_id);
+                        $(this).parent().accordion("option", "active", accord_num);
+                        match_found = true;
+                        return false;
+                    }
+                }
+            }
+            
+            accord_num = accord_num + 1;
+        });
+    }
+    
+    // No match close both accordions
+    if (match_found == false) {
+        console.log('match ',match_found);
+        $("#faq_accordion").accordion("option", "active", false);
+        $(".faq_subaccordion").accordion("option", "active", false);
+        $("#faq_btn_next").attr('data',0);
+        $("#faq_btn_next").hide();
+    } else {
+        $("#faq_btn_next").show();
+    }
+}
+$(document).ready( function() {
+    $('#faq_accordion').accordion({
+        collapsible:true,
+        beforeActivate: function(event, ui) {
+             // The accordion believes a panel is being opened
+            if (ui.newHeader[0]) {
+                var currHeader  = ui.newHeader;
+                var currContent = currHeader.next('.ui-accordion-content');
+             // The accordion believes a panel is being closed
+            } else {
+                var currHeader  = ui.oldHeader;
+                var currContent = currHeader.next('.ui-accordion-content');
+            }
+             // Since we've changed the default behavior, this detects the actual status
+            var isPanelSelected = currHeader.attr('aria-selected') == 'true';
+            
+             // Toggle the panel's header
+            currHeader.toggleClass('ui-corner-all',isPanelSelected).toggleClass('accordion-header-active ui-state-active ui-corner-top',!isPanelSelected).attr('aria-selected',((!isPanelSelected).toString()));
+            
+            // Toggle the panel's icon
+            currHeader.children('.ui-icon').toggleClass('ui-icon-triangle-1-e',isPanelSelected).toggleClass('ui-icon-triangle-1-s',!isPanelSelected);
+            
+             // Toggle the panel's content
+            currContent.toggleClass('accordion-content-active',!isPanelSelected)    
+            if (isPanelSelected) { currContent.slideUp(); }  else { currContent.slideDown(); }
+    
+            return false; // Cancels the default action
+        }
+    }); 
+ 	$('.faq_subaccordion').accordion({
+	        collapsible:true,
+	        beforeActivate: function(event, ui) {
+	             // The accordion believes a panel is being opened
+	            if (ui.newHeader[0]) {
+	                var currHeader  = ui.newHeader;
+	                var currContent = currHeader.next('.ui-accordion-content');
+	             // The accordion believes a panel is being closed
+	            } else {
+	                var currHeader  = ui.oldHeader;
+	                var currContent = currHeader.next('.ui-accordion-content');
+	            }
+	             // Since we've changed the default behavior, this detects the actual status
+	            var isPanelSelected = currHeader.attr('aria-selected') == 'true';
+	            
+	             // Toggle the panel's header
+	            currHeader.toggleClass('ui-corner-all',isPanelSelected).toggleClass('accordion-header-active ui-state-active ui-corner-top',!isPanelSelected).attr('aria-selected',((!isPanelSelected).toString()));
+	            
+	            // Toggle the panel's icon
+	            currHeader.children('.ui-icon').toggleClass('ui-icon-triangle-1-e',isPanelSelected).toggleClass('ui-icon-triangle-1-s',!isPanelSelected);
+	            
+	             // Toggle the panel's content
+	            currContent.toggleClass('accordion-content-active',!isPanelSelected)    
+	            if (isPanelSelected) { currContent.slideUp(); }  else { currContent.slideDown(); }
+	
+	            return false; // Cancels the default action
+	        }
+	    }); 
+});
+
+    </script>
+</body>
+</html>
