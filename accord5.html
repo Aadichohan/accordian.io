@@ -52,58 +52,37 @@
       </div>
     </div>
   <h3 class="accordion style3">Subject 1</h3>
-  <div class="panel">
-    <br>
-    <p class="accordiontext">hello</p>
-    <br>
+    <div class="acc-section panel">
+    <div class="acc-contents">
+      Hello
+      </div>
+    </div>
+  <h3 class="accordion style3">Subject 2</h3>
+   <div class="acc-section panel"> 
+    abcd
+  <!--   <h3 class="sub_accordion style3">Nested</h3>
+    <div class="acc-section panel">
+      Hello
+    </div> -->
   </div>
-  <button class="accordion">Subject 2</button>
-  <div class="panel">
-    <br>
-    <p class="accordiontext">world</p>
-    <br>
-  </div>
-  <button class="accordion">Subject 3</button>
-  <div class="panel">
-    <br>
+  <h3 class="accordion style3">Subject 3</h3>
+  <div class="acc-section panel">
+    <div class="acc-contents">
     <p class="accordiontext">definition.</p>
-    <br>
+    </div>
   </div>
-  <button class="accordion">Subject 4</button>
-  <div class="panel">
-    <br>
+  <h3 class="accordion style3">Subject 4</h3>
+   <div class="acc-section panel">
+    <div class="acc-contents">
     <p class="accordiontext">definition with more text.</p>
-    <br>
+    </div>
   </div>
-  <button class="accordion">Subject 5</button>
-  <div class="panel">
+  <h3 class="accordion style3">Subject 5</h3>
+   <div class="acc-section panel">
+    <div class="acc-contents">
     <br>
     <p class="accordiontext">make the page longer</p>
-    <br>
-  </div>
-  <button class="accordion">Subject 6</button>
-  <div class="panel">
-    <br>
-    <p class="accordiontext">to see the scroll effect</p>
-    <br>
-  </div>
-  <button class="accordion">Subject 7</button>
-  <div class="panel">
-    <br>
-    <p class="accordiontext">stackoverflow</p>
-    <br>
-  </div>
-  <button class="accordion">Subject 8</button>
-  <div class="panel">
-    <br>
-    <p class="accordiontext">many subjects</p>
-    <br>
-  </div>
-  <button class="accordion">Subject 9</button>
-  <div class="panel">
-    <br>
-    <p class="accordiontext">this is the end.</p>
-    <br>
+    </div>
   </div>
   <hr>
 </div>
@@ -116,11 +95,28 @@ highlightIndex.setMatchType("left");
 //Globals
 var input = document.getElementById("DefinitionSearch");
 var acc = document.getElementsByClassName("accordion");
+var sub_acc = document.getElementsByClassName("sub_accordion");
 
 //Open Subject Accordion
-[].forEach.call(acc, function(item, index, a) {
+[].forEach.call(sub_acc, function(item, index, a) {
+  console.log('sub item',item);
   item.addEventListener("click", function() {
     var panel = this.nextElementSibling;
+    console.log(panel);
+    this.classList.toggle("active");
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+});
+
+[].forEach.call(acc, function(item, index, a) {
+  console.log('item',item);
+  item.addEventListener("click", function() {
+    var panel = this.nextElementSibling;
+    console.log(panel);
     this.classList.toggle("active");
     if (panel.style.maxHeight) {
       panel.style.maxHeight = null;
