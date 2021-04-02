@@ -38,6 +38,7 @@
     <h1>Search the definitions</h1>
 
 <input type="text" id="DefinitionSearch" placeholder="Search for a definition" title="Type in a name">
+<!-- <button type="button" id="next">Next</button> -->
 <button type="button" id="clearHighlight" onclick="clearBtn();">Clear</button>
 
 
@@ -109,6 +110,7 @@ var highlightIndex = new Hilitor("highlightIndex");
 highlightIndex.setMatchType("left");
 
 //Globals
+var btn = document.getElementById("next");
 var input = document.getElementById("DefinitionSearch");
 var acc = document.getElementsByClassName("accordion");
 var sub_acc = document.getElementsByClassName("sub_accordion");
@@ -145,10 +147,13 @@ console.log(len,'height');
     }
   });
 });
+// btn.addEventListener("click", function(event) {
+ 
 
+// });
 //Search Accordings; Highlight & Open Matching Areas
-//input.addEventListener("keyup", function(event) {
-$('input').on("keyup", function(event) {
+input.addEventListener("keyup", function(event) {
+//$('input').on("keyup", function(event) {
   if (event.which === 13 || event.keyCode === 13) {
 
     var input, filter, i, acc, panels, txtValue, searchText, searchTitle;
