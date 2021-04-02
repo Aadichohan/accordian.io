@@ -180,6 +180,50 @@ console.log(acc);
 
   }
 });
+//Search Accordings; Highlight & Open Matching Areas
+input.addEventListener("keyup", function(event) {
+  if (event.which === 13 || event.keyCode === 13) {
+
+    var input, filter, i, acc, panels, txtValue, searchText, searchTitle;
+    input = document.getElementById("DefinitionSearch");
+    filter = input.value.toUpperCase();
+    acc = document.getElementsByClassName("sub_accordion");
+    subacc = document.getElementsByClassName("sub_accordion");
+    panels = document.getElementsByClassName("sub_panel");
+console.log(acc);
+    for (i = 0; i < panels.length; i++) {
+      for (i = 0; i < acc.length; i++) {
+        searchText = panels[i].textContent || panels[i].innerText;
+        searchTitle = acc[i].textContent || acc[i].innerText;
+        if (input.value !== "") {
+          if (searchText.toUpperCase().indexOf(filter) > -1 || searchTitle.toUpperCase().indexOf(filter) > -1) {
+            if (!acc[i].classList.contains("active")) {
+              acc[i].classList.add("active");
+            }
+            highlightIndex.apply(filter);
+            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+            panels[i].scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            if (acc[i].classList.contains("active")) {
+              acc[i].classList.remove("active");
+              highlightIndex.remove();
+            }
+            panels[i].style.maxHeight = null;
+          }
+        } else {
+          highlightIndex.remove();
+          if (acc[i].classList.contains("active")) {
+            acc[i].classList.remove("active");
+          }
+          panels[i].style.maxHeight = null;
+        }
+      }
+    }
+
+  }
+});
 
 
 //Clear button
