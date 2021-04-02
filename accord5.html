@@ -30,6 +30,7 @@
   overflow: hidden;
   transition: max-height 0.8s ease-out;
 }
+
     </style>
     <link rel="stylesheet" href="./style.css">
 </head>
@@ -265,13 +266,17 @@ const expand_parent = ()=>{
             if (!acc[i].classList.contains("active")) {
               acc[i].classList.add("active");
             }
-           // highlightIndex.apply(filter);
-          let length = $(acc).length;
-           let height = panels[i].scrollHeight * length;
-            panels[i].style.maxHeight = height + "px";
+           // console.log('acc ',acc[i].length);
+           
+           let length = $(acc).length;
+           let height = panels[i].scrollHeight * length ;
+            panels[i].style.maxHeight = "40%";
+
             panels[i].scrollIntoView({
-              behavior: 'smooth'
+              behavior: 'smooth',
+              duration: 5400
             });
+         
 
         }
         }
@@ -288,7 +293,10 @@ const expand_child = ()=>{
               acc[i].classList.add("active");
             }
            // highlightIndex.apply(filter);
-            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+            let length = $(acc).length;
+           let height = panels[i].scrollHeight * length ;
+            panels[i].style.maxHeight = "20%";
+            // panels[i].style.maxHeight = panels[i].scrollHeight + "px";
             panels[i].scrollIntoView({
               behavior: 'smooth'
             });
