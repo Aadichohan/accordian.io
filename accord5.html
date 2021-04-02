@@ -147,14 +147,15 @@ console.log(len,'height');
 });
 
 //Search Accordings; Highlight & Open Matching Areas
-input.addEventListener("keyup", function(event) {
+//input.addEventListener("keyup", function(event) {
+$('input').on("keyup", function(event) {
   if (event.which === 13 || event.keyCode === 13) {
 
     var input, filter, i, acc, panels, txtValue, searchText, searchTitle;
     input = document.getElementById("DefinitionSearch");
     filter = input.value.toUpperCase();
     acc = document.getElementsByClassName("accordion");
-    subacc = document.getElementsByClassName("sub_accordion");
+    //subacc = document.getElementsByClassName("sub_accordion");
     panels = document.getElementsByClassName("panel");
 console.log(acc);
     for (i = 0; i < panels.length; i++) {
@@ -166,7 +167,9 @@ console.log(acc);
             if (!acc[i].classList.contains("active")) {
               acc[i].classList.add("active");
             }
+          //  console.log(filter);
             highlightIndex.apply(filter);
+           // console.log(panels[i].innerText);
             panels[i].style.maxHeight = panels[i].scrollHeight + "px";
             panels[i].scrollIntoView({
               behavior: 'smooth'
@@ -184,6 +187,40 @@ console.log(acc);
             acc[i].classList.remove("active");
           }
           panels[i].style.maxHeight = null;
+        }
+      }
+    }
+       acc = document.getElementsByClassName("sub_accordion");
+    subacc = document.getElementsByClassName("sub_accordion");
+    subpanels = document.getElementsByClassName("sub_panel");
+// console.log(subacc);
+    for (i = 0; i < subpanels.length; i++) {
+      for (i = 0; i < subacc.length; i++) {
+        searchText = subpanels[i].textContent || subpanels[i].innerText;
+        searchTitle = subacc[i].textContent || subacc[i].innerText;
+        if (input.value !== "") {
+          if (searchText.toUpperCase().indexOf(filter) > -1 || searchTitle.toUpperCase().indexOf(filter) > -1) {
+            if (!subacc[i].classList.contains("active")) {
+              subacc[i].classList.add("active");
+            }
+            highlightIndex.apply(filter);
+            subpanels[i].style.maxHeight = subpanels[i].scrollHeight + "px";
+            subpanels[i].scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            if (subacc[i].classList.contains("active")) {
+              subacc[i].classList.remove("active");
+              highlightIndex.remove();
+            }
+            subpanels[i].style.maxHeight = null;
+          }
+        } else {
+          highlightIndex.remove();
+          if (subacc[i].classList.contains("active")) {
+            subacc[i].classList.remove("active");
+          }
+          subpanels[i].style.maxHeight = null;
         }
       }
     }
@@ -191,49 +228,49 @@ console.log(acc);
   }
 });
 //Search Accordings; Highlight & Open Matching Areas
-input.addEventListener("keyup", function(event) {
-  if (event.which === 13 || event.keyCode === 13) {
+// input.addEventListener("keyup", function(event) {
+//   if (event.which === 13 || event.keyCode === 13) {
 
-    var input, filter, i, acc, panels, txtValue, searchText, searchTitle;
-    input = document.getElementById("DefinitionSearch");
-    filter = input.value.toUpperCase();
-    acc = document.getElementsByClassName("sub_accordion");
-    subacc = document.getElementsByClassName("sub_accordion");
-    panels = document.getElementsByClassName("sub_panel");
-console.log(acc);
-    for (i = 0; i < panels.length; i++) {
-      for (i = 0; i < acc.length; i++) {
-        searchText = panels[i].textContent || panels[i].innerText;
-        searchTitle = acc[i].textContent || acc[i].innerText;
-        if (input.value !== "") {
-          if (searchText.toUpperCase().indexOf(filter) > -1 || searchTitle.toUpperCase().indexOf(filter) > -1) {
-            if (!acc[i].classList.contains("active")) {
-              acc[i].classList.add("active");
-            }
-            highlightIndex.apply(filter);
-            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
-            panels[i].scrollIntoView({
-              behavior: 'smooth'
-            });
-          } else {
-            if (acc[i].classList.contains("active")) {
-              acc[i].classList.remove("active");
-              highlightIndex.remove();
-            }
-            panels[i].style.maxHeight = null;
-          }
-        } else {
-          highlightIndex.remove();
-          if (acc[i].classList.contains("active")) {
-            acc[i].classList.remove("active");
-          }
-          panels[i].style.maxHeight = null;
-        }
-      }
-    }
+//     var input, filter, i, acc, panels, txtValue, searchText, searchTitle;
+//     input = document.getElementById("DefinitionSearch");
+//     filter = input.value.toUpperCase();
+// //     acc = document.getElementsByClassName("sub_accordion");
+// //     //subacc = document.getElementsByClassName("sub_accordion");
+// //     panels = document.getElementsByClassName("sub_panel");
+// // console.log(acc);
+// //     for (i = 0; i < panels.length; i++) {
+// //       for (i = 0; i < acc.length; i++) {
+// //         searchText = panels[i].textContent || panels[i].innerText;
+// //         searchTitle = acc[i].textContent || acc[i].innerText;
+// //         if (input.value !== "") {
+// //           if (searchText.toUpperCase().indexOf(filter) > -1 || searchTitle.toUpperCase().indexOf(filter) > -1) {
+// //             if (!acc[i].classList.contains("active")) {
+// //               acc[i].classList.add("active");
+// //             }
+// //             highlightIndex.apply(filter);
+// //             panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+// //             panels[i].scrollIntoView({
+// //               behavior: 'smooth'
+// //             });
+// //           } else {
+// //             if (acc[i].classList.contains("active")) {
+// //               acc[i].classList.remove("active");
+// //               highlightIndex.remove();
+// //             }
+// //             panels[i].style.maxHeight = null;
+// //           }
+// //         } else {
+// //           highlightIndex.remove();
+// //           if (acc[i].classList.contains("active")) {
+// //             acc[i].classList.remove("active");
+// //           }
+// //           panels[i].style.maxHeight = null;
+// //         }
+// //       }
+// //     }
 
-  }
-});
+//   }
+// });
 
 
 //Clear button
@@ -374,13 +411,13 @@ function Hilitor(id, tag) {
 
     //input = input.replace(breakRegExp, "|");
     input = input.replace(breakRegExp, " ");
-
     input = input.replace(/^\||\|$/g, "");
     if (input) {
       var re = "(" + input + ")";
       if (!this.openLeft) re = "\\b" + re;
       if (!this.openRight) re = re + "\\b";
       matchRegExp = new RegExp(re, "i");
+console.log('setRegExp',matchRegExp);
       return matchRegExp;
     }
     return false;
@@ -408,7 +445,8 @@ function Hilitor(id, tag) {
         if (!wordColor[regs[0].toLowerCase()]) {
           wordColor[regs[0].toLowerCase()] = colors[colorIdx++ % colors.length];
         }
-
+        // str.trim()
+// console.log('hilt',hiliteTag);
         var match = document.createElement(hiliteTag);
         match.appendChild(document.createTextNode(regs[0]));
         match.style.backgroundColor = wordColor[regs[0].toLowerCase()];
@@ -434,6 +472,7 @@ function Hilitor(id, tag) {
   // start highlighting at target node
   this.apply = function(input) {
     this.remove();
+    console.log('input apply',input);
     if (input === undefined || !input) return;
     if (this.setRegex(input)) {
       this.hiliteWords(targetNode);
