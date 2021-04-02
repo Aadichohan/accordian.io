@@ -23,7 +23,7 @@
   background-color: #9c9c9c;
 } */
 
-.panel {
+.panel,.sub_panel {
   padding: 0 18px;
   background-color: #FFFFFF;
   max-height: 0;
@@ -59,11 +59,16 @@
     </div>
   <h3 class="accordion style3">Subject 2</h3>
    <div class="acc-section panel"> 
-    abcd
-  <!--   <h3 class="sub_accordion style3">Nested</h3>
-    <div class="acc-section panel">
-      Hello
-    </div> -->
+    <h3 class="sub_accordion style3">Nested 1</h3>
+    <div class="acc-section sub_panel">
+     Hello <br>
+     Hello <br>
+     Hello <br>
+    </div>
+ <h3 class="sub_accordion style3">Nested 2 </h3>
+    <div class="acc-section sub_panel">
+      Hello <br>
+    </div>
   </div>
   <h3 class="accordion style3">Subject 3</h3>
   <div class="acc-section panel">
@@ -87,6 +92,7 @@
   <hr>
 </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     //Hilitor Settings
 var highlightIndex = new Hilitor("highlightIndex");
@@ -99,7 +105,7 @@ var sub_acc = document.getElementsByClassName("sub_accordion");
 
 //Open Subject Accordion
 [].forEach.call(sub_acc, function(item, index, a) {
-  console.log('sub item',item);
+  console.log('item',item);
   item.addEventListener("click", function() {
     var panel = this.nextElementSibling;
     console.log(panel);
@@ -109,6 +115,10 @@ var sub_acc = document.getElementsByClassName("sub_accordion");
     } else {
       panel.style.maxHeight = panel.scrollHeight + "px";
     }
+     var len = $(panel).parent().children().length+21;
+   let height=   (parseInt(panel.style.maxHeight.replace(/px/,""))*len)+"px" ;
+console.log(len,'height');
+    console.log($(panel).parent().css('maxHeight',height));
   });
 });
 
@@ -134,8 +144,9 @@ input.addEventListener("keyup", function(event) {
     input = document.getElementById("DefinitionSearch");
     filter = input.value.toUpperCase();
     acc = document.getElementsByClassName("accordion");
+    subacc = document.getElementsByClassName("sub_accordion");
     panels = document.getElementsByClassName("panel");
-
+console.log(acc);
     for (i = 0; i < panels.length; i++) {
       for (i = 0; i < acc.length; i++) {
         searchText = panels[i].textContent || panels[i].innerText;
@@ -153,6 +164,7 @@ input.addEventListener("keyup", function(event) {
           } else {
             if (acc[i].classList.contains("active")) {
               acc[i].classList.remove("active");
+              highlightIndex.remove();
             }
             panels[i].style.maxHeight = null;
           }
@@ -165,8 +177,10 @@ input.addEventListener("keyup", function(event) {
         }
       }
     }
+
   }
 });
+
 
 //Clear button
 function clearBtn() {
