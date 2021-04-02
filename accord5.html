@@ -42,6 +42,11 @@
 
 <h1>Section Header</h1>
 <br>
+<div id="options">
+  <a class="expand">Expand All</a> |
+   <a class="collapse">Collapse All</a>
+ </div>
+
 <!-- <div id="highlightIndex" class="acc"> -->
 <div id="acc" class="acc">
   <!-- <hr> -->
@@ -91,6 +96,10 @@
   </div>
   <hr>
 </div>
+<div id="options">
+  <a class="expand">Expand All</a> |
+   <a class="collapse">Collapse All</a>
+ </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -245,6 +254,56 @@ function clearBtn() {
   }
 }
 
+const expand_parent = ()=>{
+    acc = document.getElementsByClassName("accordion");
+    subacc = document.getElementsByClassName("sub_accordion");
+    panels = document.getElementsByClassName("panel");
+      for (i = 0; i < panels.length; i++) {
+      for (i = 0; i < acc.length; i++) {
+      
+
+            if (!acc[i].classList.contains("active")) {
+              acc[i].classList.add("active");
+            }
+           // highlightIndex.apply(filter);
+          let length = $(acc).length;
+           let height = panels[i].scrollHeight * length;
+            panels[i].style.maxHeight = height + "px";
+            panels[i].scrollIntoView({
+              behavior: 'smooth'
+            });
+
+        }
+        }
+}
+const expand_child = ()=>{
+   // acc = document.getElementsByClassName("accordion");
+    acc = document.getElementsByClassName("sub_accordion");
+    panels = document.getElementsByClassName("sub_panel");
+      for (i = 0; i < panels.length; i++) {
+      for (i = 0; i < acc.length; i++) {
+       
+
+            if (!acc[i].classList.contains("active")) {
+              acc[i].classList.add("active");
+            }
+           // highlightIndex.apply(filter);
+            panels[i].style.maxHeight = panels[i].scrollHeight + "px";
+            panels[i].scrollIntoView({
+              behavior: 'smooth'
+            });
+
+        }
+        }
+}
+$('.expand').on('click',function(){
+  expand_parent();
+  expand_child();
+  });
+$('.collapse').on('click',function(){
+
+clearBtn();
+});
 // Highlight Script "hilitor.js" Found at: https://www.the-art-of-web.com/javascript/search-highlight/
 // Original JavaScript code by Chirp Internet: www.chirp.com.au
 // Please acknowledge use of this code by including this header.
